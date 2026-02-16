@@ -51,56 +51,71 @@ function convertElement(element: HTMLElement): JSONContent | null {
     };
   }
   
-  // Handle divs as paragraphs
+  // Handle divs - check if it contains block or inline content
   if (tagName === 'div') {
-    const children: JSONContent[] = [];
+    // Check if div contains any text directly
+    let hasDirectText = false;
     for (const child of element.childNodes) {
-      if (child.nodeType === 1) {
-        const converted = convertElement(child as HTMLElement);
-        if (converted) {
-          children.push(converted);
-        }
-      } else if (child.nodeType === 3 && child.textContent?.trim()) {
-        // Text node in div, treat as paragraph
-        return {
-          type: 'paragraph',
-          content: convertInlineContent(element),
-        };
+      if (child.nodeType === 3 && child.textContent?.trim()) {
+        hasDirectText = true;
+        break;
       }
     }
-    // If div contains block elements, return them as separate nodes
-    return children.length > 0 ? children[0] : null;
+    
+    // If has direct text, treat as paragraph
+    if (hasDirectText) {
+      return {
+        type: 'paragraph',
+        content: convertInlineContent(element),
+      };
+    }
+    
+    // Otherwise, it's a container - skip it and process children
+    // This will be handled by the main loop in htmlToTiptapJson
+    return null;
   }
   
   // Handle unordered lists
   if (tagName === 'ul') {
+    const listItems = [];
+    for (const child of element.childNodes) {
+      if (child.nodeType === 1 && (child as HTMLElement).tagName.toLowerCase() === 'li') {
+        listItems.push({
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              content: convertInlineContent(child as HTMLElement),
+            },
+          ],
+        });
+      }
+    }
     return {
       type: 'bulletList',
-      content: Array.from(element.querySelectorAll('li')).map((li) => ({
-        type: 'listItem',
-        content: [
-          {
-            type: 'paragraph',
-            content: convertInlineContent(li),
-          },
-        ],
-      })),
+      content: listItems,
     };
   }
   
   // Handle ordered lists
   if (tagName === 'ol') {
+    const listItems = [];
+    for (const child of element.childNodes) {
+      if (child.nodeType === 1 && (child as HTMLElement).tagName.toLowerCase() === 'li') {
+        listItems.push({
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              content: convertInlineContent(child as HTMLElement),
+            },
+          ],
+        });
+      }
+    }
     return {
       type: 'orderedList',
-      content: Array.from(element.querySelectorAll('li')).map((li) => ({
-        type: 'listItem',
-        content: [
-          {
-            type: 'paragraph',
-            content: convertInlineContent(li),
-          },
-        ],
-      })),
+      content: listItems,
     };
   }
   
@@ -147,7 +162,6 @@ function convertInlineContent(element: HTMLElement): JSONContent[] {
       // Element node
       const el = child as HTMLElement;
       const tagName = el.tagName.toLowerCase();
-      const marks: any[] = [];
       
       // Handle inline formatting
       if (tagName === 'strong' || tagName === 'b') {

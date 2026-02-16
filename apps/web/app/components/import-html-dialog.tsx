@@ -57,8 +57,10 @@ export function ImportHtmlDialog() {
 
     // Auto-populate title from filename if empty
     if (!title) {
-      const nameWithoutExt = file.name.replace(/\.[^/.]+$/, '');
-      setTitle(nameWithoutExt);
+      // Remove extension while handling multiple dots and dot-prefixed filenames
+      const parts = file.name.split('.');
+      const nameWithoutExt = parts.length > 1 ? parts.slice(0, -1).join('.') : file.name;
+      setTitle(nameWithoutExt || file.name);
     }
 
     try {

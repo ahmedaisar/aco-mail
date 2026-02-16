@@ -34,7 +34,7 @@ export async function action(args: Route.ActionArgs) {
 
   const body = await request.json();
   const schema = z.object({
-    title: z.string().trim().min(3),
+    title: z.string().trim().min(3, 'Title must be at least 3 characters'),
     previewText: z.string().trim().optional(),
     html: z.string().min(1, 'HTML content is required'),
   });
