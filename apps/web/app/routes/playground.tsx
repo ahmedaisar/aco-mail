@@ -42,7 +42,7 @@ export async function loader(args: Route.LoaderArgs) {
     return;
   }
 
-  return redirect('https://app.maily.to', {
+  return redirect('https://aco-mail.vercel.app', {
     headers: new Headers(),
     status: 301,
   });
@@ -60,7 +60,7 @@ export default function Playground(props: Route.ComponentProps) {
         <div className="mt-5 flex items-stretch gap-2">
           <a
             className="flex items-center rounded-md bg-black px-2 py-1 text-sm text-white disabled:cursor-not-allowed disabled:opacity-50"
-            href="https://app.maily.to/auth/login"
+            href="https://aco-mail.vercel.app/login"
           >
             <LogInIcon className="mr-1 inline-block size-4" />
             Login / Register
