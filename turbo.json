@@ -3,9 +3,15 @@
   "globalDependencies": ["**/.env.*local"],
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$",".env"],
-      "env": [],
+    "dependsOn": ["^build"],
+    "inputs": ["$TURBO_DEFAULT$", ".env"],
+    "env": [
+      "VITE_GA_TRACKING_ID",
+      "VITE_SUPABASE_URL",
+      "VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY",
+      "VITE_SUPABASE_ANON_KEY",
+      "VITE_APP_URL"
+    ],
       "outputs": [
         "dist/**",
         ".next/**",
@@ -20,6 +26,7 @@
         "NODE_ENV",
         "VITE_GA_TRACKING_ID",
         "VITE_SUPABASE_URL",
+        "VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY",
         "VITE_SUPABASE_ANON_KEY",
         "VITE_APP_URL"
       ],
