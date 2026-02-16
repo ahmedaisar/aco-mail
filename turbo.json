@@ -16,7 +16,6 @@
     },
     "@maily-to/web#build": {
       "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$",".env"],
       "env": [
         "NODE_ENV",
         "VITE_GA_TRACKING_ID",
