@@ -25,6 +25,7 @@ import {
   ApiKeyConfigDialog,
   apiKeyQueryOptions,
 } from './api-key-config-dialog';
+import { ImportHtmlDialog } from './import-html-dialog';
 
 type UpdateTemplateData = {
   title: string;
@@ -105,6 +106,7 @@ export function EmailEditorSandbox(props: EmailEditorSandboxProps) {
             apiKey={apiKeyConfig?.apiKey}
             provider={apiKeyConfig?.provider}
           />
+          <ImportHtmlDialog />
           <PreviewEmailDialog
             subject={subject}
             previewText={previewText}
