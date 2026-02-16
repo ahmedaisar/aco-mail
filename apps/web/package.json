@@ -29,6 +29,7 @@
     "isbot": "^5.1.25",
     "js-base64": "^3.7.7",
     "lucide-react": "^0.483.0",
+    "node-html-parser": "^7.0.1",
     "nprogress": "^0.2.0",
     "react": "^19.0.0",
     "react-colorful": "^5.6.1",
